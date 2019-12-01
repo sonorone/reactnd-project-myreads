@@ -3,10 +3,10 @@ import Action from "./Action";
 import Cover from "./Cover";
 
 class BookCard extends Component {
-  state = {};
-
-  handleShelfChange = shelf => {
-    this.props.onShelfChange(this.props.book, shelf);
+  handleShelfChange = targetShelf => {
+    let updatedBook = this.props.book;
+    updatedBook.shelf = targetShelf;
+    this.props.onShelfChange(updatedBook, targetShelf);
   };
 
   render() {

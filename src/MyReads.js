@@ -6,37 +6,45 @@ import * as BooksAPI from "./BooksAPI";
 
 class MyReads extends Component {
   state = {
-    currentlyReading: [],
-    wantToRead: [],
-    read: []
+    books: []
   };
 
   componentDidMount() {
-    const filter = books => shelf =>
-      books.filter(b => {
-        return b.shelf === shelf;
-      });
-
     BooksAPI.getAll().then(books => {
-      this.setState({
-        currentlyReading: filter(books)("currentlyReading"),
-        wantToRead: filter(books)("wantToRead"),
-        read: filter(books)("read")
-      });
+      this.setState({ books });
     });
   }
 
   addBook = book => {};
 
-  moveBook = (book, shelfTarget) => {
-    let newState = {
-      [book.shelf]: this.state[book.shelf].filter(b => b.id !== book.id),
-      [shelfTarget]: [...this.state[shelfTarget], book]
-    };
-    this.setState(newState);
+  moveBook = (updatedBook, shelfTarget) => {
+    if (shelfTarget !== "none") {
+      this.setState(prevState => ({
+        books: [
+          ...prevState.books.filter(b => b.id !== updatedBook.id),
+          updatedBook
+        ]
+      }));
+    } else {
+      console.log(`shelf '${shelfTarget}' doesnt exist`);
+      console.log(updatedBook);
+      this.setState(prevState => ({
+        books: prevState.books.filter(b => b.id !== updatedBook.id)
+      }));
+    }
   };
+
   render() {
-    const { currentlyReading, wantToRead, read } = this.state;
+    const filter = books => shelf =>
+      books.filter(b => {
+        return b.shelf === shelf;
+      });
+
+    const { books } = this.state;
+    const currentlyReading = filter(books)("currentlyReading");
+    const wantToRead = filter(books)("wantToRead");
+    const read = filter(books)("read");
+
     return (
       <div className="app">
         <div className="list-books">
@@ -49,8 +57,12 @@ class MyReads extends Component {
               name="Currently Reading"
               onShelfChange={this.moveBook}
             />
-            <Shelf books={wantToRead} name="Want to Read" />
-            <Shelf books={read} name="Read" />
+            <Shelf
+              books={wantToRead}
+              name="Want to Read"
+              onShelfChange={this.moveBook}
+            />
+            <Shelf books={read} name="Read" onShelfChange={this.moveBook} />
           </div>
           <Search />
         </div>
