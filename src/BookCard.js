@@ -1,36 +1,33 @@
 import React, { Component } from "react";
+import Action from "./Action";
+import Cover from "./Cover";
 
 class BookCard extends Component {
   state = {};
 
+  handleShelfChange = shelf => {
+    this.props.onShelfChange(this.props.book, shelf);
+  };
+
   render() {
+    const { title, authors, imageLinks, shelf } = this.props.book;
+
     return (
       <li>
         <div className="book">
           <div className="book-top">
-            <div
-              className="book-cover"
-              style={{
-                width: 128,
-                height: 193,
-                backgroundImage:
-                  'url("http://books.google.com/books/content?id=PGR2AwAAQBAJ&printsec=frontcover&img=1&zoom=1&imgtk=AFLRE73-GnPVEyb7MOCxDzOYF1PTQRuf6nCss9LMNOSWBpxBrz8Pm2_mFtWMMg_Y1dx92HT7cUoQBeSWjs3oEztBVhUeDFQX6-tWlWz1-feexS0mlJPjotcwFqAg6hBYDXuK_bkyHD-y&source=gbs_api")'
-              }}
-            ></div>
-            <div className="book-shelf-changer">
-              <select>
-                <option value="move" disabled>
-                  Move to...
-                </option>
-                <option value="currentlyReading">Currently Reading</option>
-                <option value="wantToRead">Want to Read</option>
-                <option value="read">Read</option>
-                <option value="none">None</option>
-              </select>
-            </div>
+            <Cover links={imageLinks} />
+            <Action
+              optionsState={shelf}
+              onShelfChange={this.handleShelfChange}
+            />
           </div>
-          <div className="book-title">To Kill a Mockingbird</div>
-          <div className="book-authors">Harper Lee</div>
+          <div className="book-title">{title}</div>
+          <div className="book-authors">
+            {authors.map(author => (
+              <p key={author}>{author}</p>
+            ))}
+          </div>
         </div>
       </li>
     );
