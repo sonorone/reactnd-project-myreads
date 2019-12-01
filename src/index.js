@@ -1,6 +1,13 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import MyReads from "./MyReads";
+import { BrowserRouter } from "react-router-dom";
+import App from "./App";
+import "./App.css";
 import "./index.css";
 
-ReactDOM.render(<MyReads />, document.getElementById("root"));
+ReactDOM.render(
+  <BrowserRouter>
+    <App />
+  </BrowserRouter>,
+  document.getElementById("root")
+);

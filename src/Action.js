@@ -13,7 +13,6 @@ class Action extends Component {
 
   render() {
     const { optionsState } = this.props;
-    console.log("Action-optionsState", optionsState);
     return (
       <div className="book-shelf-changer">
         <select value={optionsState} onChange={this.handleChange}>

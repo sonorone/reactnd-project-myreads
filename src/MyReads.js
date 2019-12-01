@@ -1,37 +1,11 @@
 import React, { Component } from "react";
 import "./App.css";
 import Shelf from "./Shelf";
-import Search from "./Search";
-import * as BooksAPI from "./BooksAPI";
+import Add from "./Add";
 
 class MyReads extends Component {
-  state = {
-    books: []
-  };
-
-  componentDidMount() {
-    BooksAPI.getAll().then(books => {
-      this.setState({ books });
-    });
-  }
-
-  addBook = book => {};
-
-  moveBook = (updatedBook, shelfTarget) => {
-    if (shelfTarget !== "none") {
-      this.setState(prevState => ({
-        books: [
-          ...prevState.books.filter(b => b.id !== updatedBook.id),
-          updatedBook
-        ]
-      }));
-    } else {
-      console.log(`shelf '${shelfTarget}' doesnt exist`);
-      console.log(updatedBook);
-      this.setState(prevState => ({
-        books: prevState.books.filter(b => b.id !== updatedBook.id)
-      }));
-    }
+  handleMoveBook = (updatedBook, shelfTarget) => {
+    this.props.moveBook(updatedBook, shelfTarget);
   };
 
   render() {
@@ -40,7 +14,7 @@ class MyReads extends Component {
         return b.shelf === shelf;
       });
 
-    const { books } = this.state;
+    const { books } = this.props;
     const currentlyReading = filter(books)("currentlyReading");
     const wantToRead = filter(books)("wantToRead");
     const read = filter(books)("read");
@@ -55,16 +29,20 @@ class MyReads extends Component {
             <Shelf
               books={currentlyReading}
               name="Currently Reading"
-              onShelfChange={this.moveBook}
+              onShelfChange={this.handleMoveBook}
             />
             <Shelf
               books={wantToRead}
               name="Want to Read"
-              onShelfChange={this.moveBook}
+              onShelfChange={this.handleMoveBook}
             />
-            <Shelf books={read} name="Read" onShelfChange={this.moveBook} />
+            <Shelf
+              books={read}
+              name="Read"
+              onShelfChange={this.handleMoveBook}
+            />
           </div>
-          <Search />
+          <Add />
         </div>
       </div>
     );
