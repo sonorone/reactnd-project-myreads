@@ -12,7 +12,11 @@ class Action extends Component {
   };
 
   render() {
-    const { optionsState } = this.props;
+    const optionsState =
+      typeof this.props.optionsState === "undefined"
+        ? "none"
+        : this.props.optionsState;
+
     return (
       <div className="book-shelf-changer">
         <select value={optionsState} onChange={this.handleChange}>
