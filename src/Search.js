@@ -10,14 +10,12 @@ class Search extends Component {
   };
 
   handleQuery = event => {
-    console.log(event);
     this.setState({ query: event.target.value });
     BooksAPI.search(event.target.value)
       .then(results => {
         if (results && results !== "undefined") this.setState({ results });
       })
       .catch(err => {
-        console.log("ERROR when fetching resuls", err);
         if (err) this.setState({ results: [] });
       });
   };

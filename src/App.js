@@ -10,9 +10,7 @@ class BooksApp extends React.Component {
   };
 
   addBook = (book, shelf) => {
-    console.log("addBook run");
     book.shelf = shelf;
-
     if (shelf !== "none") {
       this.setState(prevState => ({
         books: [...prevState.books, book]
@@ -36,7 +34,6 @@ class BooksApp extends React.Component {
         ]
       }));
     } else {
-      console.log(`shelf '${shelfTarget}' doesnt exist`);
       this.setState(prevState => ({
         books: prevState.books.filter(b => b.id !== updatedBook.id)
       }));
