@@ -11,12 +11,17 @@ class BookCard extends Component {
 
   render() {
     const { title, authors, imageLinks, shelf } = this.props.book;
+    let links = { smallThumbnail: "" };
+
+    if (imageLinks && imageLinks !== "undefined") {
+      links = imageLinks;
+    }
 
     return (
       <li>
         <div className="book">
           <div className="book-top">
-            <Cover links={imageLinks} />
+            <Cover links={links} />
             <Action
               optionsState={shelf}
               onShelfChange={this.handleShelfChange}
@@ -24,9 +29,9 @@ class BookCard extends Component {
           </div>
           <div className="book-title">{title}</div>
           <div className="book-authors">
-            {authors.map(author => (
-              <p key={author}>{author}</p>
-            ))}
+            {authors &&
+              authors !== "undefined" &&
+              authors.map(author => <p key={author}>{author}</p>)}
           </div>
         </div>
       </li>
