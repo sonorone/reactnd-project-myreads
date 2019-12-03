@@ -43,7 +43,6 @@ class BooksApp extends React.Component {
   };
 
   render() {
-    console.log("myReads - state - books", this.state.books);
     return (
       <div className="app">
         <Route
