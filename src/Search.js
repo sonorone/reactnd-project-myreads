@@ -6,7 +6,8 @@ import BookCard from "./BookCard";
 class Search extends Component {
   state = {
     query: "",
-    results: []
+    results: [],
+    myBooks: this.props.myBooks
   };
 
   handleQuery = event => {
@@ -25,7 +26,15 @@ class Search extends Component {
   };
 
   render() {
-    const { results, query } = this.state;
+    const { results, query, myBooks } = this.state;
+    let mixed = [];
+
+    if (results && results.error !== "empty query") {
+      mixed = results.filter(result => {
+        const retVal = myBooks.find(obj => obj.id === result.id);
+        return typeof retVal === "undefined" ? true : false;
+      });
+    }
 
     return (
       <div className="search-books">
@@ -42,10 +51,11 @@ class Search extends Component {
             />
           </div>
         </div>
+        {JSON.mixed}
         <div className="search-books-results">
           <ol className="books-grid">
-            {results && results.error !== "empty query" && query !== "" ? (
-              results.map(book => (
+            {mixed && mixed.error !== "empty query" && query !== "" ? (
+              mixed.map(book => (
                 <BookCard
                   book={book}
                   key={book.id}

@@ -43,6 +43,7 @@ class BooksApp extends React.Component {
   };
 
   render() {
+    console.log("myReads - state - books", this.state.books);
     return (
       <div className="app">
         <Route
@@ -54,7 +55,9 @@ class BooksApp extends React.Component {
         />
         <Route
           path="/search"
-          render={() => <Search onAddBook={this.addBook} />}
+          render={() => (
+            <Search myBooks={this.state.books} onAddBook={this.addBook} />
+          )}
         />
       </div>
     );
