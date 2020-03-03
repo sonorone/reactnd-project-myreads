@@ -52,7 +52,6 @@ class Search extends Component {
               value={this.state.query}
               onChange={this.handleQuery}
             />
-            />
           </div>
         </div>
         {JSON.mixed}
